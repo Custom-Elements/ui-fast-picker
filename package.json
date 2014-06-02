@@ -1,0 +1,26 @@
+{
+  "name": "ui-fast-picker",
+  "version": "0.0.0",
+  "dependencies": {
+    "coffeeify": "",
+    "coffee-script": "",
+    "browserify": "",
+    "browserify-data": "",
+    "gulp": "",
+    "gulp-browserify": "",
+    "gulp-shell": "",
+    "gulp-less": "",
+    "gulp-replace": "",
+    "gulp-rename": "",
+    "gulp-concat": "",
+    "vulcanize": "",
+    "express": "",
+    "polymer": "git://github.com/Custom-Elements/polymer",
+    "ui-fonts": "git://github.com/custom-elements/ui-fonts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "gulp build",
+    "test": "gulp watch"
+  }
+}

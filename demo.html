@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>ui-fast-picker</title>
+    <script src="node_modules/polymer/platform.js"></script>
+    <link rel="import" href="node_modules/polymer/polymer.html">
+    <link rel="import" href="build/ui-fast-picker.html">
+
+    <link rel="stylesheet" href="node_modules/ui-fonts/build/font-awesome.css">    
+    
+    <style>
+      body {
+        font-family: "Helvetica Neue", "Helvetica", Arial;
+      }
+
+      .red {
+        color:red;
+      }
+      .yellow {
+        color:yellow;
+      }
+      .green {
+        color:green;
+      }
+      .black {
+        color:black;
+      }
+      
+    </style>
+  </head>
+  <body unresolved>
+    <div id="holder">
+      
+      <ui-fast-picker value="1">
+        
+        <ui-fast-picker-item value="1">
+          <i class="fa fa-flag red"></i>
+        </ui-fast-picker-item>
+      
+        <ui-fast-picker-item value="2">
+          <i class="fa fa-flag yellow"></i>
+        </ui-fast-picker-item>
+      
+        <ui-fast-picker-item value="3">
+          <i class="fa fa-flag green"></i>
+        </ui-fast-picker-item>
+      
+        <ui-fast-picker-item value="4">
+          <i class="fa fa-flag black"></i>
+        </ui-fast-picker-item>
+
+      </ui-fast-picker>
+
+    </div>
+    <script>
+      document.addEventListener('polymer-ready', function() {
+        //poke your element here
+      })
+    </script>
+  </body>
+</html>
