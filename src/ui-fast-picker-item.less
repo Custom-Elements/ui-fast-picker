@@ -1,8 +1,31 @@
+@import "../node_modules/ui-styles/variables.less";
+
 :host {
-  display: block;
-  position: absolute;  
+    display: block;
+    position: absolute;
+    width: 100px;
+    box-sizing:border-box;
+    text-align: right;
+        
+
+    .transform(rotate(0rad));
+    .transition(@transition);   
+
+
+    i {
+        .transform(rotate(0rad));
+        .transition(@transition);   
+    }
 }
 
 :host([selected-display]) {
-	position:static;
+    position:static;
+    text-align:center;
+    -webkit-transform: none;
+
+    i {
+        -webkit-transform: none;
+    }
 }
+
+

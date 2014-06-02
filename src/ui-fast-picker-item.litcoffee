@@ -9,14 +9,23 @@
 ##Attributes and Change Handlers
 
 ##Methods
-      
+
+      getParent: (node) ->
+        parent = node.parentNode
+        while parent.tagName isnt 'UI-FAST-PICKER-ITEM'
+          parent = node.parentNode
+        return parent
+
 ##Event Handlers
 
+      clickHandler: (event) ->
+        parent = @getParent(event.target)
+        @fire 'open' if parent.hasAttribute 'selected-display'
+          
 ##Polymer Lifecycle
 
       created: ->
-        console.log 'pig'
-
+        
       ready: ->
 
       attached: ->

@@ -1,8 +1,9 @@
 <link rel="import" href="./ui-fast-picker-item.html">
 
-<polymer-element name="ui-fast-picker" attributes="value">  
+<polymer-element name="ui-fast-picker" attributes="value" on-click="{{clickHandler}}" on-open="{{open}}">  
 <template>
   <link rel="stylesheet" type="text/css" href="./ui-fast-picker.css">
+  <!-- <background></background> -->
   <content></content>
 </template>
 <script src="./ui-fast-picker.js"></script>
