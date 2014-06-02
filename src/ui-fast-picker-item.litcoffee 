@@ -1,7 +1,6 @@
 #ui-fast-picker-item
 *TODO* tell me all about your element.
-
-
+    
     Polymer 'ui-fast-picker-item',
 
 ##Events
@@ -10,12 +9,13 @@
 ##Attributes and Change Handlers
 
 ##Methods
-
+      
 ##Event Handlers
 
 ##Polymer Lifecycle
 
       created: ->
+        console.log 'what'
 
       ready: ->
 
@@ -23,4 +23,5 @@
 
       domReady: ->
 
-      detached: ->
+      detached: ->      
+

@@ -16,7 +16,8 @@
     "vulcanize": "",
     "express": "",
     "polymer": "git://github.com/Custom-Elements/polymer",
-    "ui-fonts": "git://github.com/custom-elements/ui-fonts"
+    "ui-fonts": "git://github.com/custom-elements/ui-fonts",
+    "lodash": "^2.4.1"
   },
   "license": "MIT",
   "scripts": {
