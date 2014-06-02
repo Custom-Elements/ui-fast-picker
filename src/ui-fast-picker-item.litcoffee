@@ -15,7 +15,7 @@
 ##Polymer Lifecycle
 
       created: ->
-        console.log 'what'
+        console.log 'pig'
 
       ready: ->
 

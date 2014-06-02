@@ -12,6 +12,8 @@
     <style>
       body {
         font-family: "Helvetica Neue", "Helvetica", Arial;
+        position: relative;
+        padding: 4em;
       }
 
       .red {
@@ -25,7 +27,7 @@
       }
       .black {
         color:black;
-      }
+      }    
       
     </style>
   </head>
@@ -54,7 +56,12 @@
     </div>
     <script>
       document.addEventListener('polymer-ready', function() {
-        //poke your element here
+        
+        setTimeout(function() {
+          var test = document.querySelector('ui-fast-picker');
+          test.value = 2;
+        }, 3000);
+
       })
     </script>
   </body>
