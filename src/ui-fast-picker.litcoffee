@@ -29,14 +29,21 @@ want to databind
           clone = match.cloneNode(true)          
           clone.setAttribute 'selected-display', ''          
           clone.style.width = 'auto'
+          clone.style.left = '0'
+          clone.style.webkitTransform = 'none'
+          clone.style.webkitTransformOrigin = 'none'
+          _.each clone.children, (child) ->             
+            child.style.webkitTransform = "none"
+
           @appendChild clone
 
           clone.removeAttribute 'hide'          
 
-      radiusChanged: (oldVal,newVal)->         
+      radiusChanged: (oldVal,newVal)->       
+        console.log 'compute'  
         items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
         _.each items, (item) ->
-          item.style.width = "#{newVal}px"    
+          item.style.width = "#{newVal}px"   
           
 ##Methods
 
@@ -51,6 +58,11 @@ want to databind
 
         @layout()
 
+      select: (event) ->        
+        @value = event.detail
+        @toggle()
+        
+
 ###layout
 Layout is going to be called every time we show the item picker
 
@@ -60,7 +72,7 @@ Layout is going to be called every time we show the item picker
         rad = (2 * Math.PI) / numItems
 
         selected = @querySelector '[selected-display]'
-        w = selected.offsetWidth;         
+        w = selected.offsetWidth;
         
         _.each items, (item, index) ->
           item.style.left = "#{(w / 2)}px"
@@ -75,13 +87,15 @@ Layout is going to be called every time we show the item picker
 ##Polymer Lifecycle
 
       created: ->   
-        @toggled = false             
+        @toggled = false              
 
       ready: ->
 
       attached: ->        
 
       domReady: ->
+        selected = @querySelector '[selected-display]'
+        @radius ||= selected.offsetWidth * 3;
 
       detached: ->
 
