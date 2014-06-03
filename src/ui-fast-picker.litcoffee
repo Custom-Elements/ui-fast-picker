@@ -49,12 +49,12 @@ want to databind
           i.setAttribute('hide', '') unless @toggled
           return true
 
-        @layout2()
+        @layout()
 
 ###layout
 Layout is going to be called every time we show the item picker
 
-      layout2: -> 
+      layout: -> 
         items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
         numItems = items.length
         rad = (2 * Math.PI) / numItems
@@ -69,9 +69,6 @@ Layout is going to be called every time we show the item picker
           
           _.each item.children, (child) ->             
             child.style.webkitTransform = "rotate(-#{rad * index}rad)"
-
-        background = @querySelector("background")
-        background.style.width = w + @radius
 
 ##Event Handlers            
 

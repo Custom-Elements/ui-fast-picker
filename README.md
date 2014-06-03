@@ -94,8 +94,6 @@ Layout is going to be called every time we show the item picker
 
 
 
-
-
 ##Event Handlers            
 
 ##Polymer Lifecycle
