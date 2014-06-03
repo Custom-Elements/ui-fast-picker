@@ -8,9 +8,11 @@
     <link rel="import" href="build/ui-fast-picker.html">
     <link rel="import" href="build/ui-fast-picker-item.html">
 
-    <link rel="stylesheet" href="node_modules/ui-fonts/build/font-awesome.css">    
-    <link rel="stylesheet" href="node_modules/ui-styles/variables.css">    
-    
+    <link rel="stylesheet" href="node_modules/ui-fonts/build/font-awesome.css">
+    <link rel="stylesheet" href="node_modules/ui-styles/variables.css">
+
+    <script src="http://localhost:35729/livereload.js"></script>
+
     <style>
       body {
         font-family: "Helvetica Neue", "Helvetica", Arial;
@@ -18,48 +20,34 @@
         padding: 4em;
       }
 
-      i {
+      .flag {
         text-shadow: 0px 0px 2px rgba(0,0,0,.15);
         display:inline-block;
       }
-      
+
     </style>
   </head>
   <body unresolved>
     <div id="holder">
-      
-      <ui-fast-picker value="1" radius="50">
-        
+
+      <ui-fast-picker value="1" >
+
         <ui-fast-picker-item value="1">
           <i class="solid flag red"></i>
         </ui-fast-picker-item>
-      
+
         <ui-fast-picker-item value="2">
           <i class="solid flag yellow"></i>
         </ui-fast-picker-item>
-      
+
         <ui-fast-picker-item value="3">
           <i class="solid flag green"></i>
         </ui-fast-picker-item>
-      
+
         <ui-fast-picker-item value="4">
           <i class="solid flag black"></i>
-        </ui-fast-picker-item> 
-         <ui-fast-picker-item value="1">
-          <i class="solid flag red"></i>
         </ui-fast-picker-item>
-      
-        <ui-fast-picker-item value="2">
-          <i class="solid flag yellow"></i>
-        </ui-fast-picker-item>
-      
-        <ui-fast-picker-item value="3">
-          <i class="solid flag green"></i>
-        </ui-fast-picker-item>
-      
-        <ui-fast-picker-item value="4">
-          <i class="solid flag black"></i>
-        </ui-fast-picker-item>            
+
       </ui-fast-picker>
 
     </div>

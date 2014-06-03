@@ -1,12 +1,23 @@
 #ui-fast-picker-item
-*TODO* tell me all about your element.
+A single item in the radial menu, you can put any content inside this you like.
 
+This is really useful for flags and status indicators, and is a fun alternative
+to the boring old dropdown box.
+
+Check out the [demo](demo.html)
 
 
 ##Events
-*TODO* describe the custom event `name` and `detail` that are fired.
+###toggle
+This gets fired when you click on the center currently selected item, and
+signals that it is time to coffle the menu open.
+###select
+This gets fired when you click on a radial, outside item passing the `value`
+as the detail.
 
 ##Attributes and Change Handlers
+###value
+This is the data binding value shared with the containing `ui-fast-picker`.
 
 ##Methods
 
@@ -15,8 +26,8 @@
 
 
 
-
 ##Event Handlers
+
 
 
 
@@ -30,21 +41,22 @@
 
 
 
-
 #ui-fast-picker
-*TODO* tell me all about your element.
-
-
+A fast picker is a radial menu alternative to a boring old drop down.
 
 
 
 ##Events
-*TODO* describe the custom event `name` and `detail` that are fired.
 
 ##Attributes and Change Handlers
-### value  
-value of the selected item, this is the one you would
-want to databind
+### value
+Currently selected value, this is the one you want to bind to a model. Setting
+this will visually change to another `ui-fast-picker-item` by matching its
+`value`.
+
+
+
+
 
 
 
@@ -68,6 +80,9 @@ want to databind
 
 
 ##Methods
+
+
+
 
 
 
@@ -93,10 +108,7 @@ Layout is going to be called every time we show the item picker
 
 
 
-
-
-
-##Event Handlers            
+##Event Handlers
 
 ##Polymer Lifecycle
 

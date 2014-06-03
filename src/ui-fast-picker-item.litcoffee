@@ -12,10 +12,13 @@ Check out the [demo](demo.html)
 ###toggle
 This gets fired when you click on the center currently selected item, and
 signals that it is time to coffle the menu open.
+###select
+This gets fired when you click on a radial, outside item passing the `value`
+as the detail.
 
 ##Attributes and Change Handlers
-###
-
+###value
+This is the data binding value shared with the containing `ui-fast-picker`.
 
 ##Methods
 
@@ -31,6 +34,7 @@ signals that it is time to coffle the menu open.
         item = event.target
         item = @getParent(event.target) if item.tagName isnt 'UI-FAST-PICKER-ITEM'
         @fire 'toggle' if item.hasAttribute 'selected-display'
+        @fire 'select', @value unless item.hasAttribute 'selected-display'
 
 ##Polymer Lifecycle
 
