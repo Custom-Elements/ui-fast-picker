@@ -3,7 +3,7 @@
 :host {
     display: block;
     position: absolute;
-    box-sizing:border-box;
+    box-sizing: border-box;
     text-align: right;
     visibility: visible;
     opacity: 1;
@@ -11,14 +11,9 @@
     .transition(@transition);       
 }
 
-:host([selected-display]) {
-    position:absolute;
+:host([selected-display]) {    
     display:inline-block;
-    text-align:left;
-    * {
-        line-height: 1em;
-
-    }    
+    text-align:left;    
 }
 
 :host([hide]) {

@@ -21,8 +21,7 @@
 
       clickHandler: (event) ->        
         item = event.target
-        item = @getParent(event.target) if item.tagName isnt 'UI-FAST-PICKER-ITEM'
-        console.log item
+        item = @getParent(event.target) if item.tagName isnt 'UI-FAST-PICKER-ITEM'        
         @fire 'toggle' if item.hasAttribute 'selected-display'        
           
 ##Polymer Lifecycle
