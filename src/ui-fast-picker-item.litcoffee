@@ -10,8 +10,7 @@
 
 ##Methods
 
-      getParent: (node) ->
-        console.log 'parent'
+      getParent: (node) ->        
         parent = node.parentNode
         while parent.tagName isnt 'UI-FAST-PICKER-ITEM'
           parent = node.parentNode

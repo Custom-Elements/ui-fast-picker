@@ -15,7 +15,6 @@
 
 
 
-
 ##Event Handlers
 
 
@@ -80,6 +79,7 @@ want to databind
 
 ###layout
 Layout is going to be called every time we show the item picker
+
 
 
 

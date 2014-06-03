@@ -36,7 +36,7 @@ want to databind
       radiusChanged: (oldVal,newVal)->         
         items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
         _.each items, (item) ->
-          item.style.width = "#{newVal}px"        
+          item.style.width = "#{newVal}px"    
           
 ##Methods
 
@@ -59,7 +59,6 @@ Layout is going to be called every time we show the item picker
         numItems = items.length
         rad = (2 * Math.PI) / numItems
 
-        
         selected = @querySelector '[selected-display]'
         w = selected.offsetWidth;         
         
@@ -69,7 +68,10 @@ Layout is going to be called every time we show the item picker
           item.style.webkitTransformOrigin = "0% 50%";
           
           _.each item.children, (child) ->             
-            child.style.webkitTransform = "rotate(-#{rad * index}rad)"              
+            child.style.webkitTransform = "rotate(-#{rad * index}rad)"
+
+        background = @querySelector("background")
+        background.style.width = w + @radius
 
 ##Event Handlers            
 
