@@ -11,6 +11,7 @@
 ##Methods
 
       getParent: (node) ->
+        console.log 'parent'
         parent = node.parentNode
         while parent.tagName isnt 'UI-FAST-PICKER-ITEM'
           parent = node.parentNode
@@ -18,9 +19,11 @@
 
 ##Event Handlers
 
-      clickHandler: (event) ->
-        parent = @getParent(event.target)
-        @fire 'open' if parent.hasAttribute 'selected-display'
+      clickHandler: (event) ->        
+        item = event.target
+        item = @getParent(event.target) if item.tagName isnt 'UI-FAST-PICKER-ITEM'
+        console.log item
+        @fire 'toggle' if item.hasAttribute 'selected-display'        
           
 ##Polymer Lifecycle
 

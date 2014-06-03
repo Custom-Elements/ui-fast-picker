@@ -3,29 +3,26 @@
 :host {
     display: block;
     position: absolute;
-    width: 100px;
     box-sizing:border-box;
     text-align: right;
-        
+    visibility: visible;
+    opacity: 1;
 
-    .transform(rotate(0rad));
-    .transition(@transition);   
-
-
-    i {
-        .transform(rotate(0rad));
-        .transition(@transition);   
-    }
+    .transition(@transition);       
 }
 
 :host([selected-display]) {
-    position:static;
-    text-align:center;
-    -webkit-transform: none;
+    position:absolute;
+    display:inline-block;
+    text-align:left;
+    * {
+        line-height: 1em;
 
-    i {
-        -webkit-transform: none;
-    }
+    }    
 }
 
-
+:host([hide]) {
+    .transform(rotate(0rad))!important;
+    visibility: hidden;
+    opacity: 0;    
+}

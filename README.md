@@ -15,7 +15,10 @@
 
 
 
+
 ##Event Handlers
+
+
 
 
 
@@ -63,7 +66,12 @@ want to databind
 
 
 
+
+
 ##Methods
+
+
+
 
 
 
@@ -114,16 +122,15 @@ Layout is going to be called every time we show the item picker
 
 
 
-##Event Handlers
 
 
 
 
 
-
-
+##Event Handlers            
 
 ##Polymer Lifecycle
+
 
 
 

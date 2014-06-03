@@ -13,14 +13,13 @@
 value of the selected item, this is the one you would
 want to databind
 
-      valueChanged: (oldVal, newVal) ->
+      valueChanged: (oldVal, newVal) ->        
         if newVal isnt oldVal
           items = @querySelectorAll("ui-fast-picker-item")
           _.each items, (i) ->
-            i.removeAttribute 'selected' 
-            i.style.visibility = 'hidden'
-            i.style.opacity = .3
-
+            i.removeAttribute 'selected'            
+            i.setAttribute 'hide', ''
+            
           match = @querySelector("ui-fast-picker-item[value='#{newVal}']")
           match.setAttribute 'selected', ''
                     
@@ -29,21 +28,26 @@ want to databind
 
           clone = match.cloneNode(true)          
           clone.setAttribute 'selected-display', ''          
+          clone.style.width = 'auto'
           @appendChild clone
 
-          clone.style.visibility = 'visible'
-          clone.style.opacity = 1
+          clone.removeAttribute 'hide'          
 
-          # @layout()
-                 
-
+      radiusChanged: (oldVal,newVal)->         
+        items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
+        _.each items, (item) ->
+          item.style.width = "#{newVal}px"        
+          
 ##Methods
 
-      open: ->
-        items = @querySelectorAll("ui-fast-picker-item")
-        _.each items, (i) ->
-            i.style.visibility = 'visible'
-            i.style.opacity = 1
+      toggle: ->
+        items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
+        @toggled = !@toggled
+        
+        _.each items, (i) =>            
+          i.removeAttribute('hide') if @toggled
+          i.setAttribute('hide', '') unless @toggled
+          return true
 
         @layout2()
 
@@ -54,12 +58,18 @@ Layout is going to be called every time we show the item picker
         items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
         numItems = items.length
         rad = (2 * Math.PI) / numItems
+
+        
+        selected = @querySelector '[selected-display]'
+        w = selected.offsetWidth;         
         
         _.each items, (item, index) ->
-          console.log rad * index
-          item.style.webkitTransform = "rotate(#{rad * index}rad)"          
-          item.children[0].style.webkitTransform = "rotate(-#{rad * index}rad)"
-        
+          item.style.left = "#{(w / 2)}px"
+          item.style.webkitTransform = "rotate(#{rad * index}rad) "          
+          item.style.webkitTransformOrigin = "0% 50%";
+          
+          _.each item.children, (child) ->             
+            child.style.webkitTransform = "rotate(-#{rad * index}rad)"              
 
       layout: ->
         items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
@@ -89,7 +99,7 @@ Layout is going to be called every time we show the item picker
         selectedWidth = selected.clientWidth 
         selectedHeight = selected.clientHeight
 
-        backgroundSize = radius * 3
+        backgroundSize = radius + (clientWidth / 2)
 
         background.style.width = "#{backgroundSize}px"
         background.style.height = "#{backgroundSize}px"        
@@ -98,20 +108,12 @@ Layout is going to be called every time we show the item picker
         background.style.top = "-#{(backgroundSize / 2) - ((selectedHeight - 2) / 2)}px"
         background.style.left = "-#{(backgroundSize / 2) - ((selectedWidth - 2) / 2)}px"
 
-##Event Handlers
-      
-      clickHandler: (event) ->        
-        item = event.relatedTarget
-
-        parent = item.parentNode
-        while parent.tagName isnt 'UI-FAST-PICKER-ITEM'
-          parent = item.parentNode
-
-        @value = parent.value        
+##Event Handlers            
 
 ##Polymer Lifecycle
 
-      created: ->                
+      created: ->   
+        @toggled = false             
 
       ready: ->
 
