@@ -14,14 +14,14 @@ this will visually change to another `ui-fast-picker-item` by matching its
 `value`.
 
       radiusChanged: ->                
-        items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
+        items = @querySelectorAll('ui-fast-picker-item')
         _.each items, (item) =>          
           item.style.width = "#{@radius}px"
 
 ##Methods
 
       toggle: ->      
-        items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
+        items = @querySelectorAll('ui-fast-picker-item')
         @toggled = !@toggled
 
         _.each items, (i) =>
@@ -33,7 +33,7 @@ this will visually change to another `ui-fast-picker-item` by matching its
 
       close: ->
         @toggled = false
-        items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
+        items = @querySelectorAll('ui-fast-picker-item')
         
         _.each items, (i) => i.setAttribute 'hide', ''
 
@@ -56,17 +56,17 @@ this will visually change to another `ui-fast-picker-item` by matching its
         _.each clone.children, (child) ->
           child.style.webkitTransform = "none"
 
-        @appendChild clone
+        @shadowRoot.appendChild clone
 
 ###layout
 Layout is going to be called every time we show the item picker
 
       layout: ->
-        items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
+        items = @querySelectorAll('ui-fast-picker-item')
         numItems = items.length
         rad = (2 * Math.PI) / numItems
 
-        selected = @querySelector '[selected-display]'
+        selected = @shadowRoot.querySelector '[selected-display]'
         w = selected.offsetWidth
 
         _.each items, (item, index) ->
