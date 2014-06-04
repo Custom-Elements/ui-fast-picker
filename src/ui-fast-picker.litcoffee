@@ -46,7 +46,7 @@ and set the initial state to closed
 
         @radius ||= selected.offsetWidth * 2.5
         @radiusChanged()
-        @close()        
+        @close()          
 
 For this to work as an inline element we need to line up the inner items
 with the shadowRoot clone item. We use the first item as the basis for computation
@@ -77,7 +77,10 @@ Will close the picker
       close: ->
         items = @querySelectorAll('ui-fast-picker-item')      
         _.each items, (i) =>
-          i.setAttribute('hide', '')                  
+          i.setAttribute('hide', '')  
+
+        background = @shadowRoot.querySelector 'background'
+        background.setAttribute 'hide', ''
 
 ###toggle
 Toggles the picker 
@@ -94,6 +97,10 @@ Toggles the picker
           i.removeAttribute('hide') if @toggled
           i.setAttribute('hide', '') unless @toggled
           return true
+
+        background = @shadowRoot.querySelector 'background'
+        background.setAttribute 'hide', '' unless @toggled
+        background.removeAttribute 'hide' if @toggled
                 
         @layout()  
 
@@ -128,7 +135,16 @@ Make the container ````ui-fast-picker``` the size of it's shadow root
 
         rect = clone.getBoundingClientRect()            
         @style.width = "#{rect.width}px"
-        @style.height = "#{rect.height}px"       
+        @style.height = "#{rect.height}px"  
+
+      positionBackground: (against) ->
+        background = @shadowRoot.querySelector 'background'        
+        styleDef = window.getComputedStyle(background, null)        
+        if styleDef
+          w = Number styleDef.getPropertyValue('width').replace('px','')
+          h = Number styleDef.getPropertyValue('height').replace('px','')          
+          background.style.left = "-#{(w/2) - (against.offsetWidth / 2)}px"
+          background.style.top = "-#{(h/2) - (against.offsetHeight / 2)}px"     
 
 ###layout
 Layout is going to be called every time we show the item picker
@@ -138,8 +154,8 @@ Layout is going to be called every time we show the item picker
         numItems = items.length
         rad = (2 * Math.PI) / numItems
 
-        selected = @shadowRoot.querySelector 'ui-fast-picker-item'        
-        width = selected?.offsetWidth || 0
+        clone = @shadowRoot.querySelector 'ui-fast-picker-item'        
+        width = clone?.offsetWidth || 0
 
 Here apply our rotations to each item and it's children.  
 The children are rotated inreverse so they are always right side up.
@@ -152,6 +168,10 @@ The children are rotated inreverse so they are always right side up.
 
           _.each item.children, (child) ->
             child.style.webkitTransform = "rotate(-#{rad * index}rad)"
+
+Translate the backgrounds center point to be the center point of our clone
+                
+        @positionBackground(clone)
 
 ##Event Handlers
 ### observerChildren

@@ -86,8 +86,13 @@ Will close the picker
 
 
 
+
+
 ###toggle
 Toggles the picker 
+
+
+
 
 
 
@@ -129,6 +134,14 @@ Make the container ````ui-fast-picker``` the size of it's shadow root
 
 
 
+
+
+
+
+
+
+
+
 ###layout
 Layout is going to be called every time we show the item picker
 
@@ -145,6 +158,10 @@ The children are rotated inreverse so they are always right side up.
 
 
 
+
+
+
+Translate the backgrounds center point to be the center point of our clone
 
 
 
