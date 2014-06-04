@@ -28,9 +28,6 @@ This is the data binding value shared with the containing `ui-fast-picker`.
 
 
 
-
-
-
 ##Event Handlers
 
 
@@ -103,8 +100,40 @@ this will visually change to another `ui-fast-picker-item` by matching its
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Make the container 'ui-fast-picker' the size of it's shadow root
+
+
+
+
 ###layout
 Layout is going to be called every time we show the item picker
+
+
+
+
+
+
+
+For this to work as an inline element we need to line up the inner items
+We use the first item as the basis for computation
+
+
+
+
 
 
 
@@ -125,9 +154,13 @@ Layout is going to be called every time we show the item picker
 
 
 
+
+
 ##Polymer Lifecycle
 ### attached
 We setup the defaults here, have to wait for the children to be mutated and then setup
 the selected item and the radius
+
+
 
 

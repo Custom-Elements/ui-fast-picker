@@ -28,13 +28,9 @@ This is the data binding value shared with the containing `ui-fast-picker`.
           parent = node.parentNode
         return parent
 
-      valueChanged: (oldVal, newVal) ->
-        console.log newVal
-
       selectedChanged: (oldVal, newVal) ->
         @fire 'select', @value if @hasAttribute 'selected'
         
-
 ##Event Handlers
 
       clickHandler: (event) ->
