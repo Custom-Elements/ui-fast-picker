@@ -36,9 +36,22 @@ this will visually change to another `ui-fast-picker-item` by matching its
         selected = @shadowRoot.querySelector 'ui-fast-picker-item'        
         width = selected?.offsetWidth || 0
 
+
+For this to work as an inline element we need to line up the inner items
+We use the first item as the basis for computation
+        
+        first = @querySelector 'ui-fast-picker-item'
+        styleDef = window.getComputedStyle(first, null)
+        
+        if styleDef
+          topPadding = styleDef.getPropertyValue 'padding-top'
+          topBorder = styleDef.getPropertyValue 'border-top-width'          
+          offset = Number(topBorder.replace('px', '')) + Number(topPadding.replace('px', ''))
+
         _.each items, (item, index) ->                                
           item.style.left = "#{(width / 2)}px"
-          item.style.webkitTransformOrigin = "0% 50%"      
+          item.style.webkitTransformOrigin = "0% 50%"  
+          item.style.top = "-#{offset}px"    
 
         document.addEventListener 'click', (event) =>          
           t = event.target
@@ -98,21 +111,9 @@ Layout is going to be called every time we show the item picker
         selected = @shadowRoot.querySelector 'ui-fast-picker-item'        
         width = selected?.offsetWidth || 0
         
-For this to work as an inline element we need to line up the inner items
-We use the first item as the basis for computation
-        
-        first = @querySelector 'ui-fast-picker-item'
-        styleDef = window.getComputedStyle(first, null)
-        
-        if styleDef
-          topPadding = styleDef.getPropertyValue 'padding-top'
-          topBorder = styleDef.getPropertyValue 'border-top-width'          
-          offset = Number(topBorder.replace('px', '')) + Number(topPadding.replace('px', ''))
-
         _.each items, (item, index) ->                                                            
           item.setAttribute 'animate',
-          item.style.left = "#{(width / 2)}px"
-          item.style.top = "-#{offset}px"
+          item.style.left = "#{(width / 2)}px"          
           item.style.webkitTransform = "rotate(#{rad * index}rad) "  
           item.style.zIndex = items.length - index         
 
