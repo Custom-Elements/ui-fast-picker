@@ -8,9 +8,6 @@
     <link rel="import" href="build/ui-fast-picker.html">
     <link rel="import" href="build/ui-fast-picker-item.html">
 
-    <link rel="stylesheet" href="node_modules/ui-fonts/build/font-awesome.css">
-    <link rel="stylesheet" href="node_modules/ui-styles/variables.css">
-
     <script src="http://localhost:35729/livereload.js"></script>
 
     <style>
@@ -20,24 +17,39 @@
         padding: 4em;
       }
 
-      .flag {
-        text-shadow: 0px 0px 2px rgba(0,0,0,.15);
-        display:inline-block;
+      #inline {
+        color: red;
       }
-
+    
       ui-fast-picker-item {        
         background: #eee;
         padding-right:10px;              
       }
 
-      ui-fast-picker-item::shadow clone {
-        background: none;
-        padding:0;
-        border: none;    
-      } 
-
-      #inline {
-        color: red;
+      ui-fast-picker /deep/ .solid.flag:before {
+        font-size: 1.5em;
+        content: "\25a3";
+        font-style: normal;
+      }
+      
+      ui-fast-picker /deep/ .yellow.flag:before {
+        -webkit-text-fill-color: #fae843;
+        -webkit-text-stroke: 1px #454545;
+      }
+      
+      ui-fast-picker /deep/ .red.flag:before {
+        -webkit-text-fill-color: #ef272d;
+        -webkit-text-stroke: 1px #454545;
+      }
+      
+      ui-fast-picker /deep/ .green.flag:before {
+        -webkit-text-fill-color: #c8ed8d;
+        -webkit-text-stroke: 1px #454545;
+      }
+      
+      ui-fast-picker /deep/ .grey.flag:before {
+        -webkit-text-fill-color: rgba(0, 0, 0, 0.61);
+        -webkit-text-stroke: 1px #454545;
       }
 
     </style>
