@@ -9,6 +9,8 @@ Check out the [demo](demo.html)
 A fast picker is a radial menu alternative to a boring old drop down.
 
     _ = require "lodash"
+
+    deg2rad = (deg) -> (deg * Math.PI) / 180
    
     Polymer 'ui-fast-picker',
 
@@ -159,9 +161,9 @@ Layout is going to be called every time we show the item picker
         items = @querySelectorAll('ui-fast-picker-item')
         numItems = items.length
 
-        totalAngle = Math.abs(Number(@startangle) - Number(@endangle))
+        totalAngle = Math.abs(deg2rad(Number(@startangle)) - deg2rad(Number(@endangle)))
         deg = totalAngle / numItems
-        offsetAngle = Number(@startangle)
+        offsetAngle = deg2rad(Number(@startangle))
 
         clone = @shadowRoot.querySelector 'ui-fast-picker-item'        
         width = clone?.offsetWidth || 0
@@ -173,11 +175,11 @@ The children are rotated inreverse so they are always right side up.
         _.each items, (item, index) =>           
           item.setAttribute 'animate',   
           item.style.left = "#{(width / 2)}px"       
-          item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}deg) "  
+          item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}rad) "  
           item.style.zIndex = items.length - index         
 
           _.each item.children, (child) =>
-            child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}deg)"
+            child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}rad)"
 
 Translate the backgrounds center point to be the center point of our clone
                 

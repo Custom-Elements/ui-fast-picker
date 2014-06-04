@@ -27,6 +27,7 @@ A fast picker is a radial menu alternative to a boring old drop down.
 
 
 
+
 ##Events
 
 ##Attributes and Change Handlers
