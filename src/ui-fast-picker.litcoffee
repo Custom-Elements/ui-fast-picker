@@ -32,56 +32,30 @@ this will visually change to another `ui-fast-picker-item` by matching its
         @layout()
 
       close: ->
+        console.log 'child',@children.length
         @toggled = false
         items = @querySelectorAll('ui-fast-picker-item')
         
         _.each items, (i) => i.setAttribute 'hide', ''
 
-      select: (event) ->  
-        console.log      
+      select: (event) ->            
         selected = event.target
         @selected = selected.value
-                
-        existingNode = @querySelector('[selected-display]')
-        @removeChild @querySelector('[selected-display]') if existingNode
+                        
+        @shadowRoot.removeChild @shadowRoot.firstChild
         
         clone = selected.cloneNode(true)
         clone.removeAttribute 'hide'
         clone.removeAttribute 'selected'
-        clone.setAttribute 'selected-display', ''
-        clone.style.width = 'auto'
-        clone.style.left = '0'
-        clone.style.webkitTransform = 'none'
-        clone.style.webkitTransformOrigin = 'none'
+        clone.removeAttribute 'style'
+        clone.setAttribute 'clone', ''
+        
         _.each clone.children, (child) ->
-          child.style.webkitTransform = "none"
+          child.removeAttribute 'style'
 
         @shadowRoot.appendChild clone
 
-###layout
-Layout is going to be called every time we show the item picker
-
-      layout: ->
-        items = @querySelectorAll('ui-fast-picker-item')
-        numItems = items.length
-        rad = (2 * Math.PI) / numItems
-
-        selected = @shadowRoot.querySelector '[selected-display]'
-        w = selected.offsetWidth
-
-        _.each items, (item, index) ->
-          item.style.left = "#{(w / 2)}px"
-          item.style.webkitTransform = "rotate(#{rad * index}rad) "
-          item.style.webkitTransformOrigin = "0% 50%"
-
-          _.each item.children, (child) ->
-            child.style.webkitTransform = "rotate(-#{rad * index}rad)"
-
-##Event Handlers
-      
-      childrenMutated: ->      
-        @close()
-
+      setup: ->
         unless @querySelector '[selected]'
           first = @querySelector('ui-fast-picker-item')
           first?.setAttribute 'selected', ''
@@ -91,8 +65,33 @@ Layout is going to be called every time we show the item picker
         @radius ||= selected?.offsetWidth * 2.5
         @radiusChanged()
 
+        @close()
+
+###layout
+Layout is going to be called every time we show the item picker
+
+      layout: ->
+        items = @querySelectorAll('ui-fast-picker-item')
+        numItems = items.length
+        rad = (2 * Math.PI) / numItems
+
+        selected = @shadowRoot.querySelector 'ui-fast-picker-item'        
+        width = selected.offsetWidth        
+
+        _.each items, (item, index) ->
+          item.style.left = "#{(width / 2)}px"
+          item.style.webkitTransform = "rotate(#{rad * index}rad) "
+          item.style.webkitTransformOrigin = "0% 50%"
+
+          _.each item.children, (child) ->
+            child.style.webkitTransform = "rotate(-#{rad * index}rad)"
+
+##Event Handlers
+      
+      observeChildren: (fn) ->
+        fn.bind(@)()
         @onMutation @, =>
-          @childrenMutated()
+          @observeChildren(fn)
 
 ##Polymer Lifecycle
 ### attached
@@ -100,6 +99,4 @@ We setup the defaults here, have to wait for the children to be mutated and then
 the selected item and the radius
 
       attached: ->        
-        @onMutation @, =>
-          console.log 'sadfhas'
-          @childrenMutated()
+        @observeChildren @setup

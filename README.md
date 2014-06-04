@@ -97,6 +97,12 @@ this will visually change to another `ui-fast-picker-item` by matching its
 
 
 
+
+
+
+
+
+
 ###layout
 Layout is going to be called every time we show the item picker
 
@@ -119,18 +125,9 @@ Layout is going to be called every time we show the item picker
 
 
 
-
-
-
-
-
-
-
 ##Polymer Lifecycle
 ### attached
 We setup the defaults here, have to wait for the children to be mutated and then setup
 the selected item and the radius
-
-
 
 

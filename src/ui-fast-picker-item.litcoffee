@@ -24,7 +24,7 @@ This is the data binding value shared with the containing `ui-fast-picker`.
 
       getParent: (node) ->
         parent = node.parentNode
-        while parent.tagName isnt 'UI-FAST-PICKER-ITEM'
+        while parent.tagName isnt @tagName
           parent = node.parentNode
         return parent
 
@@ -39,7 +39,8 @@ This is the data binding value shared with the containing `ui-fast-picker`.
 
       clickHandler: (event) ->
         item = event.target
-        item = @getParent(event.target) if item.tagName isnt 'UI-FAST-PICKER-ITEM'        
+        item = @getParent(event.target) if item.tagName isnt @tagName
+
         @fire 'select', @value unless item.hasAttribute 'selected-display'
         @fire 'toggle'
 
