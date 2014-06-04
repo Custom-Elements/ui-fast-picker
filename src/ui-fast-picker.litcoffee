@@ -13,41 +13,14 @@ Currently selected value, this is the one you want to bind to a model. Setting
 this will visually change to another `ui-fast-picker-item` by matching its
 `value`.
 
-      valueChanged: (oldVal, newVal) ->
-        if newVal isnt oldVal
-          items = @querySelectorAll("ui-fast-picker-item")
-          _.each items, (i) ->
-            i.removeAttribute 'selected'
-            i.setAttribute 'hide', ''
-
-          match = @querySelector("ui-fast-picker-item[value='#{newVal}']")
-          match.setAttribute 'selected', ''
-
-          existingNode = @querySelector('[selected-display]')
-          @removeChild @querySelector('[selected-display]') if existingNode
-
-          clone = match.cloneNode(true)
-          clone.setAttribute 'selected-display', ''
-          clone.style.width = 'auto'
-          clone.style.left = '0'
-          clone.style.webkitTransform = 'none'
-          clone.style.webkitTransformOrigin = 'none'
-          _.each clone.children, (child) ->
-            child.style.webkitTransform = "none"
-
-          @appendChild clone
-
-          clone.removeAttribute 'hide'
-
-      radiusChanged: (oldVal,newVal)->
-        console.log 'compute'
+      radiusChanged: ->                
         items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
-        _.each items, (item) ->
-          item.style.width = "#{newVal}px"
+        _.each items, (item) =>          
+          item.style.width = "#{@radius}px"
 
 ##Methods
 
-      toggle: ->
+      toggle: ->      
         items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
         @toggled = !@toggled
 
@@ -58,10 +31,32 @@ this will visually change to another `ui-fast-picker-item` by matching its
 
         @layout()
 
-      select: (event) ->
-        @value = event.detail
-        @toggle()
+      close: ->
+        @toggled = false
+        items = @querySelectorAll('ui-fast-picker-item:not([selected-display])')
+        
+        _.each items, (i) => i.setAttribute 'hide', ''
 
+      select: (event) ->  
+        console.log      
+        selected = event.target
+        @selected = selected.value
+                
+        existingNode = @querySelector('[selected-display]')
+        @removeChild @querySelector('[selected-display]') if existingNode
+        
+        clone = selected.cloneNode(true)
+        clone.removeAttribute 'hide'
+        clone.removeAttribute 'selected'
+        clone.setAttribute 'selected-display', ''
+        clone.style.width = 'auto'
+        clone.style.left = '0'
+        clone.style.webkitTransform = 'none'
+        clone.style.webkitTransformOrigin = 'none'
+        _.each clone.children, (child) ->
+          child.style.webkitTransform = "none"
+
+        @appendChild clone
 
 ###layout
 Layout is going to be called every time we show the item picker
@@ -83,18 +78,28 @@ Layout is going to be called every time we show the item picker
             child.style.webkitTransform = "rotate(-#{rad * index}rad)"
 
 ##Event Handlers
+      
+      childrenMutated: ->      
+        @close()
+
+        unless @querySelector '[selected]'
+          first = @querySelector('ui-fast-picker-item')
+          first?.setAttribute 'selected', ''
+
+        selected = @querySelector '[selected]'                
+        
+        @radius ||= selected?.offsetWidth * 2.5
+        @radiusChanged()
+
+        @onMutation @, =>
+          @childrenMutated()
 
 ##Polymer Lifecycle
+### attached
+We setup the defaults here, have to wait for the children to be mutated and then setup
+the selected item and the radius
 
-      created: ->
-        @toggled = false
-
-      ready: ->
-
-      attached: ->
-
-      domReady: ->
-        selected = @querySelector '[selected-display]'
-        @radius ||= selected.offsetWidth * 2.5
-
-      detached: ->
+      attached: ->        
+        @onMutation @, =>
+          console.log 'sadfhas'
+          @childrenMutated()

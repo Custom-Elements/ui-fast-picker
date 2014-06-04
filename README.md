@@ -26,6 +26,11 @@ This is the data binding value shared with the containing `ui-fast-picker`.
 
 
 
+
+
+
+
+
 ##Event Handlers
 
 
@@ -58,28 +63,27 @@ this will visually change to another `ui-fast-picker-item` by matching its
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ##Methods
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,11 +114,22 @@ Layout is going to be called every time we show the item picker
 
 ##Event Handlers
 
+
+
+
+
+
+
+
+
+
+
+
+
 ##Polymer Lifecycle
-
-
-
-
+### attached
+We setup the defaults here, have to wait for the children to be mutated and then setup
+the selected item and the radius
 
 
 
