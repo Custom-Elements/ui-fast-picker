@@ -23,13 +23,14 @@
     
       ui-fast-picker-item {               
         padding-right:10px;          
-        display:block;            
+        display:block;                
       }
+
 
       /* For your inner items to have a counter rotation applied you must throw inline-block on them */
       ui-fast-picker-item /deep/ span,
       ui-fast-picker-item /deep/ .flag {
-        display:inline-block;
+        display:inline-block;        
       }
 
       ui-fast-picker /deep/ .solid.flag:before {
@@ -71,7 +72,7 @@
   <body unresolved>
 
       <div>
-        <ui-fast-picker radius="75">
+        <ui-fast-picker radius="75" startangle="180" endangle="-22.5">
 
           <template id="itemTemplate" repeat="{{items}}">
             <ui-fast-picker-item value="{{value}}">
@@ -84,7 +85,7 @@
       </div>
 
       <div>
-        <ui-fast-picker id="inline" radius="75">          
+        <ui-fast-picker id="inline" radius="75" startangle="0" endangle="180">          
           <ui-fast-picker-item value="1"><span>T</span></ui-fast-picker-item>
           <ui-fast-picker-item value="2" selected><span>E</span></ui-fast-picker-item>
           <ui-fast-picker-item value="3"><span>S</span></ui-fast-picker-item>

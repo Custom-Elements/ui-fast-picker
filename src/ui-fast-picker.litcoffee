@@ -9,7 +9,7 @@ Check out the [demo](demo.html)
 A fast picker is a radial menu alternative to a boring old drop down.
 
     _ = require "lodash"
-
+   
     Polymer 'ui-fast-picker',
 
 ##Events
@@ -23,6 +23,10 @@ Update the widths of all our children when the radius changes
         _.each items, (item) =>          
           item.style.width = "#{@radius}px"
 
+      startangleChanged: -> @layout()
+
+      endangleChanged: -> @layout()      
+
 ##Methods
 ### setup
 Mainly an internal method that gets called once when DOM nodes
@@ -30,6 +34,8 @@ are attached or when childMutated events happen
 
       setup: ->
         @toggled = false
+        @startangle ||= 0
+        @endangle ||= 360
 
 If we do not have a selected item then use the first child
 
@@ -131,7 +137,7 @@ We transform each child with a counter rotation in ```layout```, so we must reve
 
         @shadowRoot.appendChild clone
 
-Make the container ````ui-fast-picker``` the size of it's shadow root
+Make the container ```ui-fast-picker``` the size of it's shadow root
 
         rect = clone.getBoundingClientRect()            
         @style.width = "#{rect.width}px"
@@ -152,29 +158,33 @@ Layout is going to be called every time we show the item picker
       layout: ->
         items = @querySelectorAll('ui-fast-picker-item')
         numItems = items.length
-        rad = (2 * Math.PI) / numItems
+
+        totalAngle = Math.abs(Number(@startangle) - Number(@endangle))
+        deg = totalAngle / numItems
+        offsetAngle = Number(@startangle)
 
         clone = @shadowRoot.querySelector 'ui-fast-picker-item'        
         width = clone?.offsetWidth || 0
 
 Here apply our rotations to each item and it's children.  
 The children are rotated inreverse so they are always right side up.
+        
 
-        _.each items, (item, index) ->                                                            
+        _.each items, (item, index) =>           
           item.setAttribute 'animate',   
           item.style.left = "#{(width / 2)}px"       
-          item.style.webkitTransform = "rotate(#{rad * index}rad) "  
+          item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}deg) "  
           item.style.zIndex = items.length - index         
 
-          _.each item.children, (child) ->
-            child.style.webkitTransform = "rotate(-#{rad * index}rad)"
+          _.each item.children, (child) =>
+            child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}deg)"
 
 Translate the backgrounds center point to be the center point of our clone
                 
-        @positionBackground(clone)
+        @positionBackground(clone) if clone
 
 ##Event Handlers
-### observerChildren
+### observeChildren
 This will any function and run it withing the context of out element when 
 the children are mutated.  It reschedules the event again.
 

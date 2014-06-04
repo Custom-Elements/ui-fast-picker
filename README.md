@@ -37,10 +37,14 @@ Update the widths of all our children when the radius changes
 
 
 
+
+
 ##Methods
 ### setup
 Mainly an internal method that gets called once when DOM nodes
 are attached or when childMutated events happen
+
+
 
 
 
@@ -129,7 +133,7 @@ We transform each child with a counter rotation in ```layout```, so we must reve
 
 
 
-Make the container ````ui-fast-picker``` the size of it's shadow root
+Make the container ```ui-fast-picker``` the size of it's shadow root
 
 
 
@@ -151,8 +155,11 @@ Layout is going to be called every time we show the item picker
 
 
 
+
+
 Here apply our rotations to each item and it's children.  
 The children are rotated inreverse so they are always right side up.
+
 
 
 
@@ -166,7 +173,7 @@ Translate the backgrounds center point to be the center point of our clone
 
 
 ##Event Handlers
-### observerChildren
+### observeChildren
 This will any function and run it withing the context of out element when 
 the children are mutated.  It reschedules the event again.
 
