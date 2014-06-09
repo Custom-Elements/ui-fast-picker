@@ -65,11 +65,7 @@ with the shadowRoot clone item. We use the first item as the basis for computati
         _.each items, (item, index) ->
           item.style.left = "#{(width / 2)}px"
           item.style.webkitTransformOrigin = "0% 50%"
-          item.style.top = "-#{offset}px"
-
-        document.addEventListener 'click', (event) =>          
-          t = event.target
-          @close() if t isnt @
+          item.style.top = "-#{offset}px"        
 
 ### close
 Will close the picker, hide everything except the selected clone.
@@ -219,9 +215,3 @@ the selected item and the radius
       attached: ->
         @observeChildren @setup
         @setup()
-
-### detached
-Clean up any global event listeners
-
-      detached: ->    
-        document.removeEventListener 'click'
