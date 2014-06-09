@@ -10,8 +10,6 @@ A fast picker is a radial menu alternative to a boring old drop down.
 
     _ = require "lodash"
 
-    deg2rad = (deg) -> (deg * Math.PI) / 180
-
     Polymer 'ui-fast-picker',
 
 ##Events
@@ -68,6 +66,10 @@ with the shadowRoot clone item. We use the first item as the basis for computati
           item.style.left = "#{(width / 2)}px"
           item.style.webkitTransformOrigin = "0% 50%"
           item.style.top = "-#{offset}px"
+
+        document.addEventListener 'click', (event) =>          
+          t = event.target
+          @close() if t isnt @
 
 ### close
 Will close the picker, hide everything except the selected clone.
@@ -160,10 +162,13 @@ Layout is going to be called every time we show the item picker
       layout: ->
 
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        numItems = items.length
-        totalAngle = Math.abs(deg2rad(Number(@startangle)) - deg2rad(Number(@endangle)))
+        numItems = items.length        
+        totalAngle = Math.abs(Number(@startangle) - Number(@endangle))        
+
+        numItems -= 1 if totalAngle < 360
+
         deg = totalAngle / numItems
-        offsetAngle = deg2rad(Number(@startangle))
+        offsetAngle = Number(@startangle)
 
         clone = @querySelector 'ui-fast-picker-item[clone]'
         width = clone?.offsetWidth || 0
@@ -180,11 +185,11 @@ The children are rotated inreverse so they are always right side up.
         _.each items, (item, index) =>
           item.setAttribute 'animate',
           item.style.left = "#{(width / 2)}px"
-          item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}rad) "
+          item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}deg) "
           item.style.zIndex = items.length - index
 
           _.each item.children, (child) =>
-            child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}rad)"
+            child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}deg)"
 
 Translate the backgrounds center point to be the center point of our clone
 
@@ -214,3 +219,9 @@ the selected item and the radius
       attached: ->
         @observeChildren @setup
         @setup()
+
+### detached
+Clean up any global event listeners
+
+      detached: ->    
+        document.removeEventListener 'click'
