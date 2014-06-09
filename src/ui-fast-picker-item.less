@@ -1,6 +1,5 @@
 @import "../node_modules/ui-styles/variables.less";
 
-@transition: 0.2s ease-out;
 
 .transform(@transform) {
   transform: @transform;
@@ -45,4 +44,9 @@
   .transform(rotate(0rad))!important;
   visibility: hidden;
   opacity: 0;
+}
+
+section[pressed] {
+  .transition(@transition);
+  .transform(scale(0.95, 0.95));
 }

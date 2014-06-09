@@ -13,7 +13,13 @@ properly switch out it's shadow root
 
 ##Event Handlers
 ### clickHandler
-Tells the parent to swap it's shadow root and close itself.
+Clicking fires off `select` as an event, time to have a new value in the
+containing control!
 
       clickHandler: (event) ->
         @fire 'select'
+
+      pointerdown: ->
+        @$.button.setAttribute 'pressed', ''
+      pointerup: ->
+        @$.button.removeAttribute 'pressed'

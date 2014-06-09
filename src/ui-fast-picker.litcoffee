@@ -73,7 +73,6 @@ with the shadowRoot clone item. We use the first item as the basis for computati
 Will close the picker, hide everything except the selected clone.
 
       close: ->
-        console.log 'close'
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
         _.each items, (i) =>
           i.setAttribute('hide', '')
@@ -86,7 +85,6 @@ Will close the picker, hide everything except the selected clone.
 Opens up the picker, shows all selectable items.
 
       open: ->
-        console.log 'open'
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
         _.each items, (i) =>
           i.removeAttribute 'hide'
@@ -101,7 +99,6 @@ Toggles the picker
 
       toggle: ->
         @toggled = !@toggled
-        console.log @toggled
         if @toggled
           @open()
         else
@@ -175,7 +172,7 @@ If there is no default radius set we make it 2.5 times the width
 of the clone offset width then kick off ```radiusChanged```
 and set the initial state to closed
 
-        @radius ||= clone.offsetWidth * 2.5
+        @radius ||= clone?.offsetWidth * 2.5
 
 Here apply our rotations to each item and it's children.
 The children are rotated inreverse so they are always right side up.

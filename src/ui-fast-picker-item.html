@@ -1,8 +1,10 @@
-<polymer-element name="ui-fast-picker-item" attributes="selected value" on-click="{{clickHandler}}">
+<polymer-element name="ui-fast-picker-item" attributes="selected value" on-click="{{clickHandler}}" on-mousedown="{{pointerdown}}" on-mouseup="{{pointerup}}">
 <template>
   <link rel="stylesheet" type="text/css" href="./ui-fast-picker-item.less">
   <background></background>
-  <content></content>
+  <section id="button">
+    <content></content>
+  </section>
 </template>
 <script src="./ui-fast-picker-item.litcoffee"></script>
 </polymer-element>
