@@ -1,16 +1,6 @@
 @import "../node_modules/ui-styles/variables";
 
 
-.transform(@transform) {
-  transform: @transform;
-  -webkit-transform: @transform;
-}
-
-.transition(...) {
-  transition: @arguments;
-  -webkit-transition: @arguments;
-}
-
 :host {
   position: absolute;
   box-sizing: border-box;
@@ -32,8 +22,8 @@
 
 :host(:not([clone])) {
   background: @hairline-grey;
-  .box-shadow(0px 0px 1px 1px @hairline-grey inset);
-  padding-right: 0.3em;
+  .box-shadow(0px 0px 1px 0px @hairline-grey inset);
+  padding: 0.3em;
 }
 
 :host([active]) {
