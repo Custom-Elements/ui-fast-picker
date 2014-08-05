@@ -1,12 +1,11 @@
+#ui-fast-picker
+A fast picker is a radial menu alternative to a boring old drop down.
+
 This is really useful for flags and status indicators, and is a fun alternative
 to the boring old dropdown box.
 
 Check out the [demo](demo.html)
 
-----
-
-#ui-fast-picker
-A fast picker is a radial menu alternative to a boring old drop down.
 
     _ = require "lodash"
 
@@ -17,15 +16,21 @@ A fast picker is a radial menu alternative to a boring old drop down.
 Fired when `value` changes.
 
 ##Attributes and Change Handlers
-### radiusChanged
-Update the widths of all our children when the radius changes
+### radius
+Update the widths of all our children.
 
       radiusChanged: ->
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
         _.each items, (item) =>
           item.style.width = "#{@radius}px"
 
+###startangle
+Offset your layout.
+
       startangleChanged: -> @layout()
+
+###startangle
+Use this to limit your layout. Think pie menus.
 
       endangleChanged: -> @layout()
 
@@ -39,7 +44,6 @@ Mainly an internal method that gets called once when DOM nodes
 are attached or when childMutated events happen
 
       setup: ->
-        @toggled = false
         @startangle ||= 0
         @endangle ||= 360
 
@@ -94,15 +98,16 @@ Opens up the picker, shows all selectable items.
 Toggles the picker
 
       toggle: ->
-        @toggled = !@toggled
-        if @toggled
+        background = @shadowRoot.querySelector 'background'
+        if background.hasAttribute 'hide'
           @open()
         else
           @close()
 
-### select(node)
+### select
 Provide it a DOM element to select programatically.  Alternatively,
-you can set the ```selected``` attribute on an item and it will call this for you.
+you can set the `value` attribute on an item and it will call this for you.
+Set the `value` :).
 
       select: (node) ->
         if not node
