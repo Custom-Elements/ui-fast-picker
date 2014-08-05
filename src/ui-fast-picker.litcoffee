@@ -34,9 +34,10 @@ Use this to limit your layout. Think pie menus.
 
       endangleChanged: -> @layout()
 
-      valueChanged: ->
+      valueChanged: (oldValue, newValue) ->
         @select @querySelector "[value='#{@value}']"
-        @fire 'changed', @value
+        if oldValue? and newValue? and oldValue isnt newValue
+          @fire 'changed', @value
 
 ##Methods
 ### setup
