@@ -13,6 +13,8 @@ A fast picker is a radial menu alternative to a boring old drop down.
     Polymer 'ui-fast-picker',
 
 ##Events
+###changed
+Fired when `value` changes.
 
 ##Attributes and Change Handlers
 ### radiusChanged
@@ -27,6 +29,10 @@ Update the widths of all our children when the radius changes
 
       endangleChanged: -> @layout()
 
+      valueChanged: ->
+        @select @querySelector "[value='#{@value}']"
+        @fire 'changed', @value
+
 ##Methods
 ### setup
 Mainly an internal method that gets called once when DOM nodes
@@ -37,24 +43,12 @@ are attached or when childMutated events happen
         @startangle ||= 0
         @endangle ||= 360
 
-If we do not have a selected item then use the first child
-
-        unless @querySelector '[selected]'
-          first = @querySelector('ui-fast-picker-item:not([clone])')
-          first.setAttribute 'selected', '' if first
-          @select first if first
-
-        selected = @querySelector '[selected]'
-
-        @close()
-
 For this to work as an inline element we need to line up the inner items
 with the shadowRoot clone item. We use the first item as the basis for computation
 
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        selected = @querySelector 'ui-fast-picker-item[clone]'
-        width = selected?.offsetWidth || 0
         first = items[0]
+        width = first?.offsetWidth || 0
         styleDef = window.getComputedStyle(first, null)
 
         if styleDef
@@ -65,7 +59,11 @@ with the shadowRoot clone item. We use the first item as the basis for computati
         _.each items, (item, index) ->
           item.style.left = "#{(width / 2)}px"
           item.style.webkitTransformOrigin = "0% 50%"
-          item.style.top = "-#{offset}px"        
+          item.style.top = "-#{offset}px"
+
+Trigger value changed, as the items we have to select are now different.
+
+        @valueChanged()
 
 ### close
 Will close the picker, hide everything except the selected clone.
@@ -107,7 +105,9 @@ Provide it a DOM element to select programatically.  Alternatively,
 you can set the ```selected``` attribute on an item and it will call this for you.
 
       select: (node) ->
-        @selected = node.value
+        if not node
+          return
+        @value = node.value
 
 We clone the selected node and put it into the element. This makes selecting
 the actualy nodes easier and isolates the item. All styling and control specific
@@ -118,28 +118,26 @@ attributes are stripped.
 If we selected the existing clone selection, then it is a center click and
 it is time to toggle to pick another value. Otherwise, a new value was picked.
 
-        if existingClone is node
-          @toggle()
-        else
-          @removeChild existingClone if existingClone
-          clone = node.cloneNode(true)
-          clone.removeAttribute 'hide'
-          clone.removeAttribute 'selected'
-          clone.removeAttribute 'style'
-          clone.setAttribute 'clone', ''
+        @removeChild existingClone if existingClone
+        clone = node.cloneNode(true)
+        clone.removeAttribute 'hide'
+        clone.removeAttribute 'selected'
+        clone.removeAttribute 'style'
+        clone.setAttribute 'clone', ''
 
 We transform each child with a counter rotation in ```layout```, so we must reverse this here
 
-          _.each clone.children, (child) ->
-            child.removeAttribute 'style'
-            clone.removeAttribute 'hide'
-          @appendChild clone
+        _.each clone.children, (child) ->
+          child.removeAttribute 'style'
+          clone.removeAttribute 'hide'
+        @appendChild clone
 
 Make the container ```ui-fast-picker``` the size of it's shadow root
 
-          rect = clone.getBoundingClientRect()
-          @style.width = "#{rect.width}px"
-          @style.height = "#{rect.height}px"
+        rect = clone.getBoundingClientRect()
+        @style.width = "#{rect.width}px"
+        @style.height = "#{rect.height}px"
+        @close()
 
       positionBackground: (against) ->
         background = @shadowRoot.querySelector 'background'
@@ -158,8 +156,8 @@ Layout is going to be called every time we show the item picker
       layout: ->
 
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        numItems = items.length        
-        totalAngle = Math.abs(Number(@startangle) - Number(@endangle))        
+        numItems = items.length
+        totalAngle = Math.abs(Number(@startangle) - Number(@endangle))
 
         numItems -= 1 if totalAngle < 360
 
@@ -206,12 +204,20 @@ Internally used to handled select events from children
 
       selectHandler: (event) ->
         @select event.target
+        event.stopPropagation()
+
+      clickHandler: ->
+        @toggle()
 
 ##Polymer Lifecycle
 ### attached
 We setup the defaults here, have to wait for the children to be mutated and then setup
 the selected item and the radius
 
+      publish:
+        value:
+          reflect: true
+
+
       attached: ->
         @observeChildren @setup
-        @setup()
