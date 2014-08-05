@@ -67,7 +67,10 @@ with the shadowRoot clone item. We use the first item as the basis for computati
 
 Trigger value changed, as the items we have to select are now different.
 
-        @valueChanged()
+        if @value?
+          @valueChanged()
+        else
+          @value = first.value
 
 ### close
 Will close the picker, hide everything except the selected clone.
