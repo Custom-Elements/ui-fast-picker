@@ -44,7 +44,7 @@ Use this to limit your layout. Think pie menus.
 Mainly an internal method that gets called once when DOM nodes
 are attached or when childMutated events happen
 
-      setup: ->
+      setup: ->        
         @startangle ||= 0
         @endangle ||= 360
 
@@ -61,17 +61,17 @@ with the shadowRoot clone item. We use the first item as the basis for computati
           topBorder = styleDef.getPropertyValue 'border-top-width'
           offset = Number(topBorder.replace('px', '')) + Number(topPadding.replace('px', ''))
 
-        _.each items, (item, index) ->
-          item.style.left = "#{(width / 2)}px"
-          item.style.webkitTransformOrigin = "0% 50%"
-          item.style.top = "-#{offset}px"
+          _.each items, (item, index) ->
+            item.style.left = "#{(width / 2)}px"
+            item.style.webkitTransformOrigin = "0% 50%"
+            item.style.top = "-#{offset}px"
 
 Trigger value changed, as the items we have to select are now different.
 
-        if @value?
-          @valueChanged()
-        else
-          @value = first.value
+          if @value?
+            @valueChanged()
+          else
+            @value = first.value
 
 ### close
 Will close the picker, hide everything except the selected clone.
@@ -88,7 +88,7 @@ Will close the picker, hide everything except the selected clone.
 ### open
 Opens up the picker, shows all selectable items.
 
-      open: ->
+      open: ->        
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
         _.each items, (i) =>
           i.removeAttribute 'hide'
@@ -96,6 +96,7 @@ Opens up the picker, shows all selectable items.
 
         background = @shadowRoot.querySelector 'background'
         background.removeAttribute 'hide'
+        
         @layout()
 
 ###toggle
@@ -164,49 +165,52 @@ Layout is going to be called every time we show the item picker
 
       layout: ->
 
-        items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        numItems = items.length
-        totalAngle = Math.abs(Number(@startangle) - Number(@endangle))
+        window.requestAnimationFrame =>
 
-        numItems -= 1 if totalAngle < 360
+          items = @querySelectorAll('ui-fast-picker-item:not([clone])')
+          numItems = items.length
+          totalAngle = Math.abs(Number(@startangle) - Number(@endangle))
 
-        deg = totalAngle / numItems
-        offsetAngle = Number(@startangle)
+          numItems -= 1 if totalAngle < 360
 
-        clone = @querySelector 'ui-fast-picker-item[clone]'
-        width = clone?.offsetWidth || 0
+          deg = totalAngle / numItems
+          offsetAngle = Number(@startangle)
+
+          clone = @querySelector 'ui-fast-picker-item[clone]'
+          width = clone?.offsetWidth || 0
 
 If there is no default radius set we make it 2.5 times the width
 of the clone offset width then kick off ```radiusChanged```
 and set the initial state to closed
 
-        @radius ||= clone?.offsetWidth * 2.5
+          @radius ||= clone?.offsetWidth * 2.5
 
 Here apply our rotations to each item and it's children.
 The children are rotated inreverse so they are always right side up.
 
-        _.each items, (item, index) =>
-          item.setAttribute 'animate',
-          item.style.left = "#{(width / 2)}px"
-          item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}deg) "
-          item.style.zIndex = items.length - index
+          _.each items, (item, index) =>
+            item.setAttribute 'animate',
+            item.style.left = "#{(width / 2)}px"
+            item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}deg) "
+            item.style.zIndex = items.length - index
 
-          _.each item.children, (child) =>
-            child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}deg)"
+            _.each item.children, (child) =>
+              child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}deg)"
 
 Translate the backgrounds center point to be the center point of our clone
 
-        @positionBackground(clone) if clone
+          @positionBackground(clone) if clone
 
 ##Event Handlers
 ### observeChildren
 This will any function and run it withing the context of out element when
 the children are mutated.  It reschedules the event again.
 
-      observeChildren: (fn) ->
-        fn.bind(@)()
-        @onMutation @, =>
-          @observeChildren(fn)
+      observeChildren: (fn) ->                
+        @job 'mutate', =>
+          fn.bind(@)()
+          @onMutation @, =>            
+            @observeChildren(fn)
 
 ### selectHandler
 Internally used to handled select events from children
