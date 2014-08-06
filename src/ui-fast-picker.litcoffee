@@ -244,7 +244,5 @@ the selected item and the radius
 
       attached: ->
         @observeChildren =>
-          console.log 'mutate'
-          console.log @children.length
           @close()
           @setup()
