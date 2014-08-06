@@ -12,7 +12,7 @@ Check out the [demo](demo.html)
     Polymer 'ui-fast-picker',
 
 ##Events
-###changed
+###change
 Fired when `value` changes.
 
 ##Attributes and Change Handlers
@@ -34,20 +34,20 @@ Use this to limit your layout. Think pie menus.
 
       endangleChanged: -> @layout()
 
-###value 
-This is the model value that is currently selected. 
+###value
+This is the model value that is currently selected.
 
       valueChanged: (oldValue, newValue) ->
         @select @querySelector "[value='#{@value}']"
         if oldValue? and newValue? and oldValue isnt newValue
-          @fire 'changed', @value
+          @fire 'change', @value
 
 ##Methods
 ### setup
 Mainly an internal method that gets called once when DOM nodes
 are attached or when childMutated events happen
 
-      setup: ->           
+      setup: ->
         @startangle ||= 0
         @endangle ||= 360
 
@@ -100,7 +100,7 @@ Will close the picker, hide everything except the selected clone.
 ### open
 Opens up the picker, shows all selectable items.
 
-      open: ->        
+      open: ->
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
         _.each items, (i) =>
           i.removeAttribute 'hide'
@@ -108,7 +108,7 @@ Opens up the picker, shows all selectable items.
 
         background = @shadowRoot.querySelector 'background'
         background.removeAttribute 'hide'
-        
+
         @layout()
 
 ###toggle
@@ -127,7 +127,7 @@ you can set the `value` attribute on an item and it will call this for you.
 Set the `value` :).
 
       select: (node) ->
-        return if not node          
+        return if not node
         @value = node.value
 
 We clone the selected node and put it into the element. This makes selecting
@@ -174,7 +174,7 @@ Make the container ```ui-fast-picker``` the size of it's shadow root
 ###layout
 Layout is going to be called every time we show the item picker
 
-      layout: ->        
+      layout: ->
         @job 'layout', =>
           items = @querySelectorAll('ui-fast-picker-item:not([clone])')
           numItems = items.length
@@ -208,7 +208,7 @@ The children are rotated inreverse so they are always right side up.
 
 Translate the backgrounds center point to be the center point of our clone
 
-          @positionBackground(clone) if clone        
+          @positionBackground(clone) if clone
         , 20
 
 ##Event Handlers
@@ -216,10 +216,10 @@ Translate the backgrounds center point to be the center point of our clone
 This will any function and run it withing the context of out element when
 the children are mutated.  It reschedules the event again if the function call returns true.
 
-      observeChildren: (fn) -> 
+      observeChildren: (fn) ->
         @job 'mutate', =>
           fn.bind(@)()
-          @onMutation @, =>            
+          @onMutation @, =>
             @observeChildren(fn)
         , 20
 
@@ -244,7 +244,7 @@ the selected item and the radius
 
       attached: ->
         @observeChildren =>
-          console.log 'mutate'   
-          console.log @children.length      
-          @close() 
+          console.log 'mutate'
+          console.log @children.length
+          @close()
           @setup()
