@@ -29,10 +29,13 @@ Offset your layout.
 
       startangleChanged: -> @layout()
 
-###startangle
+###endangle
 Use this to limit your layout. Think pie menus.
 
       endangleChanged: -> @layout()
+
+###value 
+This is the model value that is currently selected. 
 
       valueChanged: (oldValue, newValue) ->
         @select @querySelector "[value='#{@value}']"
@@ -44,7 +47,7 @@ Use this to limit your layout. Think pie menus.
 Mainly an internal method that gets called once when DOM nodes
 are attached or when childMutated events happen
 
-      setup: ->        
+      setup: ->           
         @startangle ||= 0
         @endangle ||= 360
 
@@ -68,10 +71,8 @@ with the shadowRoot clone item. We use the first item as the basis for computati
 
 Trigger value changed, as the items we have to select are now different.
 
-          if @value?
-            @valueChanged()
-          else
-            @value = first.value
+          @valueChanged() if @value
+          @value = first.value unless @value
 
 ### close
 Will close the picker, hide everything except the selected clone.
@@ -80,6 +81,17 @@ Will close the picker, hide everything except the selected clone.
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
         _.each items, (i) =>
           i.setAttribute('hide', '')
+        @querySelector('ui-fast-picker-item[clone]')?.removeAttribute 'active'
+
+        background = @shadowRoot.querySelector 'background'
+        background.setAttribute 'hide', ''
+
+      closeNow: ->
+        items = @querySelectorAll('ui-fast-picker-item:not([clone])')
+        _.each items, (i) =>
+          i.removeAttribute('animate')
+          i.setAttribute('hide', '')
+
         @querySelector('ui-fast-picker-item[clone]')?.removeAttribute 'active'
 
         background = @shadowRoot.querySelector 'background'
@@ -115,8 +127,7 @@ you can set the `value` attribute on an item and it will call this for you.
 Set the `value` :).
 
       select: (node) ->
-        if not node
-          return
+        return if not node          
         @value = node.value
 
 We clone the selected node and put it into the element. This makes selecting
@@ -163,10 +174,8 @@ Make the container ```ui-fast-picker``` the size of it's shadow root
 ###layout
 Layout is going to be called every time we show the item picker
 
-      layout: ->
-
-        window.requestAnimationFrame =>
-
+      layout: ->        
+        @job 'layout', =>
           items = @querySelectorAll('ui-fast-picker-item:not([clone])')
           numItems = items.length
           totalAngle = Math.abs(Number(@startangle) - Number(@endangle))
@@ -199,18 +208,20 @@ The children are rotated inreverse so they are always right side up.
 
 Translate the backgrounds center point to be the center point of our clone
 
-          @positionBackground(clone) if clone
+          @positionBackground(clone) if clone        
+        , 20
 
 ##Event Handlers
 ### observeChildren
 This will any function and run it withing the context of out element when
-the children are mutated.  It reschedules the event again.
+the children are mutated.  It reschedules the event again if the function call returns true.
 
-      observeChildren: (fn) ->                
+      observeChildren: (fn) -> 
         @job 'mutate', =>
           fn.bind(@)()
           @onMutation @, =>            
             @observeChildren(fn)
+        , 20
 
 ### selectHandler
 Internally used to handled select events from children
@@ -231,6 +242,9 @@ the selected item and the radius
         value:
           reflect: true
 
-
       attached: ->
-        @observeChildren @setup
+        @observeChildren =>
+          console.log 'mutate'   
+          console.log @children.length      
+          @close() 
+          @setup()
