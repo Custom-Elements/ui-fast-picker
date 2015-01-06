@@ -7,8 +7,6 @@ to the boring old dropdown box.
 Check out the [demo](demo.html)
 
 
-    _ = require "lodash"
-
     Polymer 'ui-fast-picker',
 
 ##Events
@@ -21,7 +19,7 @@ Update the widths of all our children.
 
       radiusChanged: ->
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        _.each items, (item) =>
+        [].forEach.call items, (item) =>
           item.style.width = "#{@radius}px"
 
 ###startangle
@@ -45,7 +43,7 @@ Will close the picker, hide everything except the selected clone.
 
       close: ->
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        _.each items, (i) =>
+        [].forEach.call items, (i) =>
           i.setAttribute('hide', '')
         @querySelector('ui-fast-picker-item[clone]')?.removeAttribute 'active'
 
@@ -58,7 +56,7 @@ Opens up the picker, shows all selectable items.
       open: ->
         @layout =>
           items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-          _.each items, (i) =>
+          [].forEach.call items, (i) =>
             i.removeAttribute 'hide'
           @querySelector('ui-fast-picker-item[clone]')?.setAttribute 'active', ''
 
@@ -102,9 +100,10 @@ it is time to toggle to pick another value. Otherwise, a new value was picked.
 
 We transform each child with a counter rotation in ```layout```, so we must reverse this here
 
-        _.each clone.children, (child) ->
+        [].forEach.call clone.children, (child) ->
           child.removeAttribute 'style'
           clone.removeAttribute 'hide'
+
         @appendChild clone
 
 Make the container ```ui-fast-picker``` the size of it's shadow root
@@ -161,7 +160,7 @@ and set the initial state to closed
 Here apply our rotations to each item and its children.
 The children are rotated inreverse so they are always right side up.
 
-          _.each items, (item, index) =>
+          [].forEach.call items, (item, index) =>
             item.setAttribute 'animate', ''
             item.style.top = "-#{itemOffset}px"
             item.style.left = "#{(itemWidth / 2)}px"
@@ -169,7 +168,7 @@ The children are rotated inreverse so they are always right side up.
             item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}deg) "
             item.style.zIndex = items.length - index
 
-            _.each item.children, (child) =>
+            [].forEach.call item.children, (child) =>
               child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}deg)"
 
 Translate the backgrounds center point to be the center point of our clone
