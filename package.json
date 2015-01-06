@@ -4,7 +4,6 @@
   "dependencies": {
     "polymer-build": "",
     "polymer": "git://github.com/custom-elements/polymer#master",
-    "lodash": "~2.4.1",
     "ui-styles": "git://github.com/custom-elements/ui-styles"
   },
   "license": "ISC",
