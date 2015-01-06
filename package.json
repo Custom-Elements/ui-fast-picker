@@ -2,7 +2,7 @@
   "name": "ui-fast-picker",
   "version": "0.0.0",
   "dependencies": {
-    "polymer-build": "",
+    "polymer-serve": "git://github.com/custom-elements/polymer-serve",
     "polymer": "git://github.com/custom-elements/polymer#master",
     "lodash": "~2.4.1",
     "ui-fonts": "git://github.com/custom-elements/ui-fonts",
@@ -10,6 +10,6 @@
   },
   "license": "ISC",
   "scripts": {
-    "test": "polymer-build watch . src/ build/"
+    "test": "polymer-serve ."
   }
 }
