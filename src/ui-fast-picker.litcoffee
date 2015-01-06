@@ -19,7 +19,7 @@ Update the widths of all our children.
 
       radiusChanged: ->
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        [].forEach.call items, (item) =>
+        items?.array().forEach (item) =>
           item.style.width = "#{@radius}px"
 
 ###startangle
@@ -43,7 +43,7 @@ Will close the picker, hide everything except the selected clone.
 
       close: ->
         items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-        [].forEach.call items, (i) =>
+        items?.array().forEach (i) =>
           i.setAttribute('hide', '')
         @querySelector('ui-fast-picker-item[clone]')?.removeAttribute 'active'
 
@@ -56,7 +56,7 @@ Opens up the picker, shows all selectable items.
       open: ->
         @layout =>
           items = @querySelectorAll('ui-fast-picker-item:not([clone])')
-          [].forEach.call items, (i) =>
+          items?.array().forEach (i) =>
             i.removeAttribute 'hide'
           @querySelector('ui-fast-picker-item[clone]')?.setAttribute 'active', ''
 
@@ -100,7 +100,7 @@ it is time to toggle to pick another value. Otherwise, a new value was picked.
 
 We transform each child with a counter rotation in ```layout```, so we must reverse this here
 
-        [].forEach.call clone.children, (child) ->
+        clone.children?.array().forEach (child) ->
           child.removeAttribute 'style'
           clone.removeAttribute 'hide'
 
@@ -160,7 +160,7 @@ and set the initial state to closed
 Here apply our rotations to each item and its children.
 The children are rotated inreverse so they are always right side up.
 
-          [].forEach.call items, (item, index) =>
+          items?.array().forEach (item, index) =>
             item.setAttribute 'animate', ''
             item.style.top = "-#{itemOffset}px"
             item.style.left = "#{(itemWidth / 2)}px"
@@ -168,7 +168,7 @@ The children are rotated inreverse so they are always right side up.
             item.style.webkitTransform = "rotate(#{(deg * index) + offsetAngle}deg) "
             item.style.zIndex = items.length - index
 
-            [].forEach.call item.children, (child) =>
+            item?.children.array().forEach (child) =>
               child.style.webkitTransform = "rotate(-#{(deg * index) + offsetAngle}deg)"
 
 Translate the backgrounds center point to be the center point of our clone
