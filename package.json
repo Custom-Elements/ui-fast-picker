@@ -2,9 +2,11 @@
   "name": "ui-fast-picker",
   "version": "0.0.1",
   "dependencies": {
-    "polymer-build": "",
-    "polymer": "git://github.com/custom-elements/polymer#master",
     "ui-styles": "git://github.com/custom-elements/ui-styles"
+  },
+  "devDependencies": {
+    "polymer": "git://github.com/custom-elements/polymer#master",
+    "polymer-build": ""
   },
   "license": "ISC",
   "scripts": {
