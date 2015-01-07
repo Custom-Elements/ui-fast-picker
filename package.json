@@ -4,8 +4,7 @@
   "dependencies": {
     "polymer-serve": "git://github.com/custom-elements/polymer-serve",
     "ui-styles": "git://github.com/custom-elements/ui-styles",
-    "polymer": "git://github.com/custom-elements/polymer#master",
-    "polymer-build": ""
+    "polymer": "git://github.com/custom-elements/polymer#master"
   },
   "license": "ISC",
   "scripts": {
